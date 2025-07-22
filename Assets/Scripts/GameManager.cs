@@ -5,7 +5,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public Player CurrentPlayer;
 
-    private void Awake() => Instance = this;
+    private void Awake()
+    {
+        Instance = this;
+        CurrentPlayer = Player.Erez;
+    }
 
     public Player SwitchTurn()
     {

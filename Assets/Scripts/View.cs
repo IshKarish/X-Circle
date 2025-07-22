@@ -29,14 +29,21 @@ public class View : MonoBehaviour
             _cells[i].Image.enabled = false;
         }
     }
-
-    public void SetCell(int row, int col, Player player)
+    
+    public void RenderBoard(Model model)
     {
-        int index = row * 3 + col;
-        
-        _cells[index].Button.interactable = false;
-        _cells[index].Image.enabled = true;
-        _cells[index].Image.sprite = player == Player.Erez ? Erez : Yakir;
+        for (int row = 0; row < 3; row++)
+        {
+            for (int col = 0; col < 3; col++)
+            {
+                int index = row * 3 + col;
+                Player player = model.Board[row, col];
+
+                _cells[index].Button.interactable = (player == Player.None);
+                _cells[index].Image.enabled = (player != Player.None);
+                _cells[index].Image.sprite = player == Player.Erez ? Erez : Yakir;
+            }
+        }
     }
 
     public void UpdateCurrentPlayerImage(Player player)

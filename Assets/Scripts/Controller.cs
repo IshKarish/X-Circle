@@ -13,6 +13,8 @@ public class Controller : MonoBehaviour
         
         View.Init(OnCellClicked);
         View.UpdateCurrentPlayerImage(_gameManager.CurrentPlayer);
+
+        _model.OnBoardUpdate += UpdateView;
     }
 
     private void OnCellClicked(int row, int col)
@@ -20,11 +22,12 @@ public class Controller : MonoBehaviour
         if (!_gameManager) return;
 
         Player player = _gameManager.CurrentPlayer;
+        _model.SetSymbol(row, col, player);
+    }
 
-        if (!_model.SetSymbol(row, col, player)) return;
-        View.SetCell(row, col, player);
-        
-        player = _gameManager.SwitchTurn();
-        View.UpdateCurrentPlayerImage(player);
+    private void UpdateView()
+    {
+        View.RenderBoard(_model);
+        View.UpdateCurrentPlayerImage(_gameManager.SwitchTurn());
     }
 }

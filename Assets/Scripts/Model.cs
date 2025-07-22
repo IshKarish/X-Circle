@@ -1,12 +1,14 @@
 public class Model
 {
-    private readonly Player[,] board = new Player[3, 3];
+    public readonly Player[,] Board = new Player[3, 3];
+    public System.Action OnBoardUpdate;
 
     public bool SetSymbol(int x, int y, Player player)
     {
-        if (board[x, y] != Player.None) return false;
+        if (Board[x, y] != Player.None) return false;
         
-        board[x, y] = player;
+        Board[x, y] = player;
+        OnBoardUpdate?.Invoke();
         return true;
     }
 }
