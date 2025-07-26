@@ -16,4 +16,11 @@ public class GameManager : MonoBehaviour
         CurrentPlayer = CurrentPlayer == Player.Erez ? Player.Yakir : Player.Erez;
         return CurrentPlayer;
     }
+
+    public string EndGame(Player winner)
+    {
+        string endMsg = winner == Player.None ? "It's a tie lol" : $"The winner is {winner} holy shit";
+        Debug.Log(endMsg);
+        return endMsg;
+    }
 }

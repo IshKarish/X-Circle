@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ internal struct Cell
 
 public class View : MonoBehaviour
 {
+    [Header("UI elements")]
     [SerializeField] private Cell[] _cells = new Cell[9];
     [SerializeField] private Image CurrentPlayerImage;
 
@@ -17,8 +19,15 @@ public class View : MonoBehaviour
     [SerializeField] private Sprite Erez;
     [SerializeField] private Sprite Yakir;
 
+    [Header("Game over stuff")]
+    [SerializeField] private GameObject EndGamePanel;
+    [SerializeField] private TextMeshProUGUI WinnerText;
+    [SerializeField] private Image WinnerImage;
+
     public void Init(System.Action<int, int> onCellClicked)
     {
+        EndGamePanel.SetActive(false);
+        
         for (int i = 0; i < _cells.Length; i++)
         {
             int row = i / 3;
@@ -51,13 +60,17 @@ public class View : MonoBehaviour
         CurrentPlayerImage.sprite = player == Player.Erez ? Erez : Yakir;
     }
 
-    public void Reset()
+    public void ShowEndGamePanel(string endMsg, Player player)
     {
-        foreach (Cell cell in _cells)
-        {
-            cell.Image.sprite = null;
-            cell.Image.enabled = false;
-            cell.Button.interactable = true;
-        }
+        EndGamePanel.SetActive(true);
+        WinnerText.text = endMsg;
+
+        WinnerImage.enabled = player != Player.None;
+        WinnerImage.sprite = (player == Player.Erez) ? Erez : Yakir;
+    }
+
+    public void ResetBoard()
+    {
+        if (EndGamePanel.activeSelf) EndGamePanel.SetActive(false);
     }
 }
